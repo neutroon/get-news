@@ -11,24 +11,16 @@ for (const link of links) {
 
 
   let allData;
-  function getNews(countryCode) {
-    let myHttp = new XMLHttpRequest();
-    myHttp.open(
-      "get",
-      `https://newsapi.org/v2/top-headlines?country=${countryCode}&category=business&apiKey=ab692e9e5da04a2eb9e6f46b68940af7`
-    );
-    myHttp.send();
-    myHttp.addEventListener("readystatechange", function () {
-      if (this.readyState == 4) {
-        allData = JSON.parse(this.response).articles;
-        displayData();
-      }
-    });
+  async function getNews(countryCode) {
+    let data = await fetch(`https://newsapi.org/v2/top-headlines?country=${countryCode}&category=business&apiKey=ab692e9e5da04a2eb9e6f46b68940af7`);
+    allData = await data.json()
+    displayData()
+
 }
 
 function displayData() {
     let cartona = '';
-  for (const data of allData) {
+  for (const data of allData.articles) {
     cartona+=`
     <div class="col-md-4">
         <div class="news shadow border-1 rounded-2 p-3 text-center">
@@ -41,3 +33,17 @@ function displayData() {
   }
 rowData.innerHTML=cartona;
 }
+
+// function done(){
+//     console.log("done");
+// }
+
+
+
+// getsecond('jp').then(getNews).then(done)
+// getAll()
+// async function getAll(){
+//     await getNews('jp');
+//     await getNews('eg');
+//     done();
+// }
